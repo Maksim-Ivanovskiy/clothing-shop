@@ -1,10 +1,10 @@
 import { createContext, useState, useEffect } from "react";
-import { onAuthStateChangedListener } from "../utils/firebase/firebase.utils";
+import { createUserDocumentFromAuth, onAuthStateChangedListener } from "../utils/firebase/firebase.utils";
 
 //as the actual value you want to access
 export const UserContext = createContext({
-    currentUser: null,
-    setCurrentUser: () => null
+    setCurrentUser: () => null,
+    currentUser: null
 });
 
 export const UserProvider = ({ children }) => {
@@ -12,7 +12,12 @@ export const UserProvider = ({ children }) => {
     const value = { currentUser, setCurrentUser};
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChangedListener(() => {})
+        const unsubscribe = onAuthStateChangedListener((user) => {
+            if(user) {
+                createUserDocumentFromAuth(user);
+            }
+            setCurrentUser(user);
+        })
         return unsubscribe  
     }, []); //I only wanna mount this fucntion once the component mounts
 
