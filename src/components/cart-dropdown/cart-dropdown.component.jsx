@@ -6,7 +6,7 @@ import CartItem from '../cart-item/cart-item.component';
 import { CartDropdownContainer, EmptyMessage, CartItems } from './cart-dropdown.styles';
 
 const CartDropdown = () => {
-    const { cartItems } = useContext(CartContext);
+    const { cartItems } = useContext(CartContext); 
     const navigate = useNavigate();
     const goToCheckoutHandler = () => {
         navigate('/checkout')
